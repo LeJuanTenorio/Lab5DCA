@@ -9,14 +9,14 @@ export const reducer = (currentAction: Actions, currentState: SquadState): Squad
         case SquadActions.ADDCHARACTER:
             return {
                 ...currentState,
-                characterName: payload,
+                status: payload,
             };
 
         case SquadActions.REMOVECHARACTER:
 
             return {
                 ...currentState,
-                characterName: payload,
+                status: payload,
             };
 
         default:

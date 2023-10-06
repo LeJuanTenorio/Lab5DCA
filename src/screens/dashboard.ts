@@ -1,6 +1,7 @@
-import { addObserver, appState, dispatch } from '../store/index';
+import { addObserver, squadState, dispatch } from '../store/index';
+import "../components/export"
 
-class Dashboard extends HTMLElement {
+export class Dashboard extends HTMLElement {
 	constructor() {
 		super();
 		this.attachShadow({ mode: 'open' });
@@ -13,11 +14,8 @@ class Dashboard extends HTMLElement {
 
 	render() {
 		if (this.shadowRoot) this.shadowRoot.innerHTML = '';
-		console.log(appState.backgroundColor);
-		const card = this.ownerDocument.createElement('app-card');
-		card.setAttribute('text_button', 'Cambiar background');
-		card.setAttribute('description', 'holisssssss');
-		this.shadowRoot?.appendChild(card);
+		const display = this.ownerDocument.createElement('display-element');
+		this.shadowRoot?.appendChild(display);
 	}
 }
 

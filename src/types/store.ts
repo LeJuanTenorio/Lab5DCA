@@ -1,7 +1,7 @@
 export type Observer = { render: () => void } & HTMLElement;
 
 export type SquadState = {
-    [characterName: string]: string;
+    [key: string]: any;
 };
 
 

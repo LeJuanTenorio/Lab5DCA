@@ -1,3 +1,6 @@
+import "./screens/dashboard"
+import "./components/export"
+
 class AppContainer extends HTMLElement {
     constructor(){
         super();
@@ -9,8 +12,9 @@ class AppContainer extends HTMLElement {
     }
 
     render() {
+        if (this.shadowRoot) {
         const dashboard = this.ownerDocument.createElement('app-dashboard');
-        this.shadowRoot?.appendChild(dashboard);
+        this.shadowRoot?.appendChild(dashboard);}
     }
 }
 

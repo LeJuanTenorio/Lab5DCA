@@ -1,62 +1,52 @@
 import { dispatch } from '../../store/index';
-import { changeBackground } from '../../store/actions';
+import {addCharacter } from '../../store/actions';
+import { squadState } from '../../store/index';
 
-export enum Attribute {
-	'description' = 'description',
-	'text_button' = 'text_button',
-}
+class Display extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
 
-export default class Display extends HTMLElement {
-	description?: string;
-	text_button?: string;
+  connectedCallback() {
+    this.render();
 
-	static get observedAttributes() {
-		const attrs: Record<Attribute, null> = {
-			description: null,
-			text_button: null,
-		};
-		return Object.keys(attrs);
-	}
+    const images = this.shadowRoot?.querySelectorAll('img');
 
-	attributeChangedCallback(propName: Attribute, _: unknown, newValue: string) {
-		this[propName] = newValue;
-		this.render();
-	}
+    images?.forEach((img, index) => {
+      img?.addEventListener('click', () => {
+        if (index < images.length) {
+          const characterStatus = squadState[Object.keys(squadState)[index]].status;
+          if (characterStatus === 'inactive') {
+            console.log('Add');
+            dispatch(addCharacter(index));
+            console.log(squadState)
+          }
+        }
+      });
+    });
+  }
 
-	constructor() {
-		super();
-		this.attachShadow({ mode: 'open' });
-	}
-
-	connectedCallback() {
-		this.render();
-
-		//Seleccionar mi boton
-		const btn = this.shadowRoot?.querySelector('button');
-
-		//Quiero hacer algo con mi boton al dar click
-		btn?.addEventListener('click', () => {
-			console.log('holi');
-			dispatch(
-				changeBackground({
-					backgroundColor: 'red',
-				})
-			);
-		});
-	}
-
-	mount() {
-		this.render();
-	}
-
-	render() {
-		if (this.shadowRoot)
-			this.shadowRoot.innerHTML = `
-        <h1>Hi this is my card</h1>
-        <p>${this.description}</p>
-        <button>${this.text_button}</button>
-        `;
-	}
+  render() {
+    if (this.shadowRoot) {
+      const characterEntries = Object.entries(squadState);
+      this.shadowRoot.innerHTML = characterEntries
+        .map(([characterName, characterStatus]) => {
+          if (characterStatus.status === 'inactive') {
+            return `
+              <img src="${characterStatus.portrait}" alt="${characterName}">
+            `;
+          } else {
+            return `
+            <img src="${characterStatus.imageLarge}" alt="${characterName}">
+          `;
+            return '';
+          }
+        })
+        .join('');
+    }
+  }
 }
 
 customElements.define('display-element', Display);
+export default Display;
