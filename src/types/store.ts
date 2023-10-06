@@ -1,18 +1,25 @@
 export type Observer = { render: () => void } & HTMLElement;
 
-export type AppState = {
-	backgroundColor: string;
+export type SquadState = {
+    [characterName: string]: string;
 };
 
-export enum BackgroundActions {
-	'CHANGEBACKGROUND' = 'CHANGEBACKGROUND',
+
+export enum SquadActions {
+	'ADDCHARACTER' = 'ADDCHARACTER',
+	'REMOVECHARACTER' = 'REMOVECHARACTER'
 }
 
-export interface ChangeBackgroundAction {
-	action: BackgroundActions.CHANGEBACKGROUND;
-	payload: 'red';
+export interface AddCharacterRoster {
+	action: SquadActions.ADDCHARACTER;
+	payload: 'active';
 }
 
-export type Actions = ChangeBackgroundAction;
+export interface RemoveCharacterRoster {
+	action: SquadActions.REMOVECHARACTER;
+	payload: 'inactive';
+}
+
+export type Actions = AddCharacterRoster | RemoveCharacterRoster;
 
 

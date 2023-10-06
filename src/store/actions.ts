@@ -1,8 +1,15 @@
-import { BackgroundActions } from '../types/store';
+import { SquadActions } from '../types/store';
 
-export const changeBackground = (payload: any) => {
+export const addCharacter = (payload: any) => {
 	return {
-		action: BackgroundActions.CHANGEBACKGROUND,
-		payload,
+		action: SquadActions.ADDCHARACTER,
+		payload: 'active',
+	};
+};
+
+export const removeCharacter = (payload: any) => {
+	return {
+		action: SquadActions.REMOVECHARACTER,
+		payload: 'inactive',
 	};
 };

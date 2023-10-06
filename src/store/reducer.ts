@@ -1,19 +1,25 @@
-import { AppState } from '../types/store';
+import { SquadState } from '../types/store';
+import { Actions, SquadActions } from '../types/store';
 
-import { Actions, BackgroundActions } from '../types/store';
-
-export const reducer = (currentAction: Actions, currentState: AppState): AppState => {
+export const reducer = (currentAction: Actions, currentState: SquadState): SquadState => {
 	console.log(currentAction);
 	const { action, payload } = currentAction;
 
 	switch (action) {
-		case BackgroundActions.CHANGEBACKGROUND:
-			return {
-				...currentState,
-				backgroundColor: payload,
-			};
+        case SquadActions.ADDCHARACTER:
+            return {
+                ...currentState,
+                characterName: payload,
+            };
 
-		default:
-			return currentState;
-	}
+        case SquadActions.REMOVECHARACTER:
+
+            return {
+                ...currentState,
+                characterName: payload,
+            };
+
+        default:
+            return currentState;
+    }
 };
