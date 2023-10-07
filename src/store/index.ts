@@ -8,7 +8,7 @@ export let squadState: { [key: string]: SquadState } = {
         portrait: "https://static.wikia.nocookie.net/darkestdungeon_gamepedia/images/9/9e/Highwayman_portrait_roster.png/revision/latest?cb=20150717052023",
     },
     Crusader: {
-        status: 'inactive',
+        status: 'active',
         imageLarge: "https://static.wikia.nocookie.net/darkestdungeon_gamepedia/images/e/eb/Crusader.png/revision/latest/scale-to-width-down/300?cb=20140303215138",
         portrait: "https://static.wikia.nocookie.net/darkestdungeon_gamepedia/images/9/9e/Highwayman_portrait_roster.png/revision/latest?cb=20150717052023",
     },

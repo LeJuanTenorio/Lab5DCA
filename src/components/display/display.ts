@@ -1,5 +1,5 @@
 import { dispatch } from '../../store/index';
-import {addCharacter } from '../../store/actions';
+import { addCharacter, removeCharacter } from '../../store/actions';
 import { squadState } from '../../store/index';
 
 class Display extends HTMLElement {
@@ -15,13 +15,16 @@ class Display extends HTMLElement {
 
     images?.forEach((img, index) => {
       img?.addEventListener('click', () => {
-        if (index < images.length) {
-          const characterStatus = squadState[Object.keys(squadState)[index]].status;
-          if (characterStatus === 'inactive') {
-            console.log('Add');
-            dispatch(addCharacter(index));
-            console.log(squadState)
-          }
+        const characterStatus = squadState[Object.keys(squadState)[index]].status;
+        if (characterStatus === 'inactive') {
+          console.log('Add');
+          console.log(index);
+          dispatch(addCharacter(index));
+          console.log(squadState);
+        } else {
+          console.log('remove');
+          dispatch(removeCharacter(index));
+          console.log(squadState);
         }
       });
     });
@@ -29,21 +32,35 @@ class Display extends HTMLElement {
 
   render() {
     if (this.shadowRoot) {
-      const characterEntries = Object.entries(squadState);
-      this.shadowRoot.innerHTML = characterEntries
-        .map(([characterName, characterStatus]) => {
-          if (characterStatus.status === 'inactive') {
-            return `
-              <img src="${characterStatus.portrait}" alt="${characterName}">
-            `;
-          } else {
-            return `
-            <img src="${characterStatus.imageLarge}" alt="${characterName}">
-          `;
-            return '';
-          }
-        })
-        .join('');
+
+      const inactive = document.createElement('div');
+      inactive.className = 'reserve';
+
+      const activeSquad = document.createElement('div');
+      activeSquad.className = 'activeSquad';
+
+      const inactiveCharacters:any = [];
+      const activeCharacters:any = [];
+
+      const characterData = Object.entries(squadState);
+      characterData.forEach(([characterName, characterStatus]) => {
+        if (characterStatus.status === 'inactive') {
+          inactiveCharacters.push(
+            `<img src="${characterStatus.portrait}" class="${characterStatus}">`
+          );
+        } else {
+          activeCharacters.push(
+            `<img src="${characterStatus.imageLarge}" class="${characterStatus}">`
+          );
+        }
+      });
+
+      this.shadowRoot.innerHTML = '';
+      this.shadowRoot.appendChild(activeSquad);
+      this.shadowRoot.appendChild(inactive);
+
+      inactive.innerHTML = inactiveCharacters.join('');
+      activeSquad.innerHTML = activeCharacters.join('');
     }
   }
 }
